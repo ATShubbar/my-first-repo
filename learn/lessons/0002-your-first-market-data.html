@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lesson 2 · Your First Market Data in Python</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <main class="page">
+
+    <div class="mission">
+      Lesson 2 · Toward: <b>learn algorithmic trading from scratch</b> — crypto, paper-first
+    </div>
+
+    <h1>Your First Market Data in Python</h1>
+    <p class="subtitle">Last lesson, step 1 of the loop was "get market data." Today you make it real:
+      three lines of Python that ask a live exchange for the current price of Bitcoin. No API key, no
+      signup, no money. Your first tangible win as an algo trader.</p>
+
+    <h2>The three lines</h2>
+    <p>Here is the entire program. Read it once; we'll take it apart line by line right after.</p>
+
+    <pre class="code-block"><code>import ccxt
+
+exchange = ccxt.binance()
+ticker = exchange.fetch_ticker('BTC/USDT')
+
+print(ticker['last'])</code></pre>
+
+    <p>Run it and it prints something like <code>67432.10</code> — the most recent price Bitcoin traded
+      at, in US-dollar-pegged tether (USDT), fetched live from Binance the instant you ran it.</p>
+
+    <div class="note">
+      <b>No account needed.</b> Reading public prices is anonymous — you only need an API key later, to
+      place orders. That's why this is a safe first step:
+      <a href="https://blog.adnansiddiqi.me/getting-started-with-ccxt-crypto-exchange-library-and-python/">ccxt
+      tutorial</a>, <a href="https://docs.ccxt.com/">ccxt docs</a>.
+    </div>
+
+    <h2>Line by line (you're new to Python — nothing assumed)</h2>
+
+    <h3><code>import ccxt</code></h3>
+    <p>A <strong>library</strong> is a bundle of code someone else wrote that you borrow. <code>ccxt</code>
+      is the library that knows how to talk to 100+ crypto exchanges. <code>import</code> is how Python
+      pulls a library into your program so you can use it. You install it once from your terminal first:</p>
+    <pre class="code-block"><code>pip install ccxt</code></pre>
+    <p><code>pip</code> is Python's package installer — think "app store for libraries." (Ask me if
+      <code>pip</code> isn't found; setup is the one part worth doing together in Claude Code.)</p>
+
+    <h3><code>exchange = ccxt.binance()</code></h3>
+    <p>The <code>=</code> sign stores something in a <strong>variable</strong> — a named box. Here we
+      ask ccxt to build a Binance connection object and we put it in a box called <code>exchange</code>.
+      The <code>()</code> means "make one now." Want Kraken instead? <code>ccxt.kraken()</code> — same
+      code everywhere, which is ccxt's whole point.</p>
+
+    <h3><code>ticker = exchange.fetch_ticker('BTC/USDT')</code></h3>
+    <p>A <strong>method</strong> is an action an object can do, written <code>object.action()</code>.
+      <code>fetch_ticker</code> asks the exchange for a snapshot of one market. <code>'BTC/USDT'</code>
+      is the <strong>symbol</strong>: trade <em>BTC</em> priced in <em>USDT</em>. What comes back is a
+      <strong>dictionary</strong> — a set of labelled values (last price, bid, ask, high, low, volume…).</p>
+
+    <h3><code>print(ticker['last'])</code></h3>
+    <p>Square brackets pull one labelled value out of a dictionary: <code>ticker['last']</code> is the
+      last traded price. <code>print(...)</code> shows it on screen. Swap in <code>ticker['bid']</code>
+      or <code>ticker['high']</code> to see other values — same dictionary, different label.</p>
+
+    <div class="insight">
+      <h3>You just built step 1</h3>
+      <p>That's not a toy. <em>Every</em> bot — including the one you'll eventually paper-trade — starts
+        exactly here: a variable holding an exchange, a call that fetches data, a value read out of the
+        result. Lessons 3+ add a signal on top of this. The foundation is now under your feet.</p>
+    </div>
+
+    <h2>Check yourself</h2>
+    <p>Recall first, then reveal. A wrong guess now is how it sticks.</p>
+
+    <div class="quiz">
+      <p class="quiz-q">What does the line <code>import ccxt</code> actually do?</p>
+      <button class="quiz-option" data-correct="true">Loads the borrowed exchange library for use</button>
+      <button class="quiz-option">Downloads and installs the ccxt package now</button>
+      <button class="quiz-option">Connects your program to your bank account</button>
+      <button class="quiz-option">Places a small test order on the market</button>
+      <p class="quiz-explain"><b>Why:</b> <code>import</code> brings an already-installed library into
+        your program. Installing it is a separate one-time step with <code>pip install ccxt</code>.</p>
+    </div>
+
+    <div class="quiz">
+      <p class="quiz-q">Why does this program need no API key or account?</p>
+      <button class="quiz-option" data-correct="true">Reading public prices needs no permission</button>
+      <button class="quiz-option">Binance gives every visitor free trades</button>
+      <button class="quiz-option">ccxt hides your identity from the exchange</button>
+      <button class="quiz-option">The price is faked locally on your computer</button>
+      <p class="quiz-explain"><b>Why:</b> Market data is public, so anyone can read it anonymously. You
+        only need an API key later, when you place orders that move money.</p>
+    </div>
+
+    <div class="quiz">
+      <p class="quiz-q">In <code>ticker['last']</code>, what is the role of <code>'last'</code>?</p>
+      <button class="quiz-option" data-correct="true">A label selecting one value in the dictionary</button>
+      <button class="quiz-option">A command telling Python to stop running</button>
+      <button class="quiz-option">The name of the exchange you connect to</button>
+      <button class="quiz-option">A promise the price will not change again</button>
+      <p class="quiz-explain"><b>Why:</b> <code>fetch_ticker</code> returns a dictionary of labelled
+        values; <code>['last']</code> picks the one labelled "last" — the most recent traded price.</p>
+    </div>
+
+    <h2>Now you try (tight feedback loop)</h2>
+    <p>This is where knowledge becomes skill. Do this and you'll <em>feel</em> step 1 working:</p>
+    <ol>
+      <li>In Claude Code, run <code>pip install ccxt</code>, then put the three lines in a file called
+        <code>price.py</code> and run <code>python price.py</code>. Did a number print? That's the win.</li>
+      <li>Change <code>'BTC/USDT'</code> to <code>'ETH/USDT'</code> and run again. The number should be
+        much smaller — that's Ethereum's price. You just re-pointed the bot at a new market.</li>
+      <li>Change <code>ticker['last']</code> to <code>ticker['high']</code>. Now you're reading today's
+        high instead of the last price. Same data, different label.</li>
+    </ol>
+    <p>The feedback is immediate and automatic: the printed number either appears (success) or you get
+      an error message — paste any error to me and we'll read it together.</p>
+
+    <div class="source">
+      <b>Primary source — copy along with this next</b>
+      <a href="https://blog.adnansiddiqi.me/getting-started-with-ccxt-crypto-exchange-library-and-python/">"CCXT
+      Python Tutorial (2026): Fetch OHLCV, Ticker &amp; Order Book Data."</a> It walks the same fetch
+      you just did and previews <code>fetch_ohlcv</code> — the historical-price data we'll need to
+      compute a signal in Lesson 3.
+    </div>
+
+    <div class="teacher">
+      <strong>I'm your teacher — ask me anything.</strong> If <code>pip</code> or <code>python</code>
+      isn't recognized, or an error appears, paste it to me — environment setup is exactly the kind of
+      thing to do together. Reference snippets from this lesson now live in
+      <a href="../reference/python-crypto-cheatsheet.html">the cheat sheet</a> for quick reuse.
+      Next up: <em>Lesson 3 — From a price to a signal</em>, where step 2 of the loop comes alive with a
+      moving average.
+    </div>
+
+    <div class="nav">
+      <span><a href="0001-the-trading-bot-loop.html">← Lesson 1: The Trading Bot Loop</a></span>
+      <span>Next: <em>Lesson 3 — From a price to a signal</em> (say "next lesson")</span>
+    </div>
+
+  </main>
+  <script src="../assets/quiz.js"></script>
+</body>
+</html>

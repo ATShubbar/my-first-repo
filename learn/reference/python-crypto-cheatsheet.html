@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reference · Python + ccxt Cheat Sheet</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <main class="page">
+
+    <div class="mission">Reference · Python + ccxt — quick recall (grows as lessons add to it)</div>
+
+    <h1>Python + ccxt Cheat Sheet</h1>
+    <p class="subtitle">The compressed essence of what you've learned, built for quick lookup — not for
+      reading cover to cover. Each entry links back to the lesson that taught it.</p>
+
+    <h2>Setup (one time)</h2>
+    <pre class="code-block"><code>pip install ccxt        # install the library (Python's "app store")
+python price.py         # run a script you've saved</code></pre>
+
+    <h2>Read a live price <span class="note" style="display:inline;border:none;padding:0">— <a href="../lessons/0002-your-first-market-data.html">Lesson 2</a></span></h2>
+    <pre class="code-block"><code>import ccxt                                   # borrow the library
+
+exchange = ccxt.binance()                     # pick an exchange (or .kraken(), .coinbase())
+ticker   = exchange.fetch_ticker('BTC/USDT')  # snapshot of one market (no API key needed)
+
+print(ticker['last'])                         # last traded price
+print(ticker['bid'])                          # best buy offer
+print(ticker['ask'])                          # best sell offer
+print(ticker['high'])                         # today's high
+print(ticker['low'])                          # today's low</code></pre>
+
+    <h2>Vocabulary so far</h2>
+    <ul>
+      <li><strong>Library</strong> — borrowed code you <code>import</code>. (<code>ccxt</code> talks to exchanges.)</li>
+      <li><strong>pip</strong> — installs libraries from the terminal.</li>
+      <li><strong>Variable</strong> — a named box: <code>name = value</code>.</li>
+      <li><strong>Method</strong> — an action an object can do: <code>object.action()</code>.</li>
+      <li><strong>Dictionary</strong> — labelled values; read one with <code>dict['label']</code>.</li>
+      <li><strong>Symbol</strong> — the market, e.g. <code>'BTC/USDT'</code> = trade BTC priced in USDT.</li>
+    </ul>
+
+    <div class="note"><b>Safety reminder:</b> reading prices is public and free. An API key is only
+      needed to place orders — and we stay in paper/dry-run mode until a strategy is proven.</div>
+
+    <div class="nav">
+      <span><a href="../lessons/0002-your-first-market-data.html">← Back to Lesson 2</a></span>
+      <span>This sheet grows with each lesson</span>
+    </div>
+
+  </main>
+</body>
+</html>

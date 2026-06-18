@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lesson 1 · The Trading Bot Loop</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <main class="page">
+
+    <div class="mission">
+      Lesson 1 · Toward: <b>learn algorithmic trading from scratch</b> — crypto, paper-first
+    </div>
+
+    <h1>The Trading Bot Loop</h1>
+    <p class="subtitle">Every trading bot ever written — from a 20-line hobby script to a hedge fund's
+      black box — is the same five-step loop running over and over. Learn the loop and you have the
+      skeleton that all the rest of this course hangs on.</p>
+
+    <h2>The one idea</h2>
+    <p>A trading bot is not magic and it is not (mostly) about predicting the future. It is a loop.
+      It looks at the market, decides what to do, acts, and waits — then does it all again. The whole
+      craft of algorithmic trading is making each of these five steps a little less wrong.</p>
+
+    <ol class="loop">
+      <li><b>Get market data.</b> Ask the exchange: what is the price right now? What were the last
+        100 prices? In crypto this comes from an API — we'll use a Python library called
+        <code>ccxt</code> that speaks to 100+ exchanges with the same code.</li>
+      <li><b>Compute a signal.</b> Turn that data into a number or a verdict: <em>buy</em>,
+        <em>sell</em>, or <em>do nothing</em>. This is "the strategy" — and it's only one of five steps.</li>
+      <li><b>Check the rules (risk).</b> Before acting, ask: can I afford this? Is the position too big?
+        Have I lost too much today? This step is what keeps you solvent.</li>
+      <li><b>Place an order.</b> Send the buy/sell to the exchange — <em>or, in paper mode, only
+        pretend to.</em> Same logic, no real money.</li>
+      <li><b>Wait, then repeat.</b> Sleep a few seconds, minutes, or hours, then loop back to step 1.</li>
+      <li class="repeat">↑ repeat forever ↑</li>
+    </ol>
+
+    <div class="note">
+      <b>Why this matters for you:</b> you chose to <b>paper-trade first</b>. Paper trading changes
+      exactly one step — step 4 becomes "simulate the order instead of sending it." Steps 1, 2, 3, and 5
+      are <em>identical</em> to a live bot. That's why a paper bot is such an honest rehearsal: only the
+      money is fake.
+    </div>
+
+    <div class="insight">
+      <h3>The beginner's trap</h3>
+      <p>Newcomers pour 95% of their energy into step 2, the strategy — hunting for the magic formula
+        that predicts price. But the traders who survive obsess over steps <b>3 and 5</b>: risk limits
+        and disciplined, repeatable execution. A mediocre signal with great risk control can endure.
+        A brilliant signal with no risk control blows up. We will respect all five steps.</p>
+    </div>
+
+    <h2>Where the danger hides</h2>
+    <p>Because the loop is so simple, it's tempting to test a strategy on past data, see big profits,
+      and rush to real money. That past-data test is called a <strong>backtest</strong>, and it lies
+      more often than it tells the truth — through overfitting, look-ahead bias, and ignored fees.
+      We'll spend real time learning to read a backtest skeptically
+      (<a href="https://www.quantstart.com/articles/Successful-Backtesting-of-Algorithmic-Trading-Strategies-Part-I/">QuantStart</a>,
+      <a href="https://medium.com/funny-ai-quant/ai-algorithmic-trading-common-pitfalls-in-backtesting-a-comprehensive-guide-for-algorithmic-ce97e1b1f7f7">common pitfalls</a>).
+      For now, just hold the loop in your head.</p>
+
+    <h2>Check yourself</h2>
+    <p>Don't re-read — try to recall. Answer before you reveal; getting it slightly wrong now is how it sticks.</p>
+
+    <div class="quiz">
+      <p class="quiz-q">Which single step changes when you switch a bot from live trading to paper trading?</p>
+      <button class="quiz-option">Step 1, getting the market data feed</button>
+      <button class="quiz-option">Step 2, computing the trading signal</button>
+      <button class="quiz-option" data-correct="true">Step 4, placing the order is simulated</button>
+      <button class="quiz-option">Step 5, waiting before the loop repeats</button>
+      <p class="quiz-explain"><b>Why:</b> Paper mode only simulates the order in step 4. Data, signal,
+        risk checks, and the loop timing all run exactly as they would live — which is what makes paper
+        trading a faithful rehearsal.</p>
+    </div>
+
+    <div class="quiz">
+      <p class="quiz-q">A trader brags their signal predicts price brilliantly but ignores position sizing. What's the real risk?</p>
+      <button class="quiz-option" data-correct="true">No risk control means one bad run can blow up</button>
+      <button class="quiz-option">The signal will slowly stop working over many years</button>
+      <button class="quiz-option">The exchange will reject orders that are too good</button>
+      <button class="quiz-option">Paper trading cannot test a predictive signal well</button>
+      <p class="quiz-explain"><b>Why:</b> Step 3 (risk) is what keeps you solvent. A great signal with
+        no risk limits is one unlucky streak away from ruin — survival depends on sizing and limits,
+        not just prediction.</p>
+    </div>
+
+    <div class="quiz">
+      <p class="quiz-q">In step 1, what does the Python <code>ccxt</code> library give you?</p>
+      <button class="quiz-option" data-correct="true">One uniform way to read many crypto exchanges</button>
+      <button class="quiz-option">A finished profitable strategy ready to run live</button>
+      <button class="quiz-option">A guarantee your backtest matches real results</button>
+      <button class="quiz-option">A private feed faster than every other trader</button>
+      <p class="quiz-explain"><b>Why:</b> <code>ccxt</code> is a unified API — the same Python code
+        fetches prices and (later) places orders across 100+ exchanges. It supplies data and execution
+        plumbing, not a strategy and not an edge.</p>
+    </div>
+
+    <div class="source">
+      <b>Primary source — read or skim this next</b>
+      <a href="https://www.quantstart.com/articles/Successful-Backtesting-of-Algorithmic-Trading-Strategies-Part-I/">QuantStart
+      — "Successful Backtesting of Algorithmic Trading Strategies, Part I."</a> It frames the whole
+      strategy → backtest → forward-test pipeline you're about to walk. Don't worry about the math yet;
+      read it for the shape of the process.
+    </div>
+
+    <div class="teacher">
+      <strong>I'm your teacher — ask me anything.</strong> Stuck on a term? Want the loop explained with
+      a different analogy? Curious how a specific exchange fits in? Just ask in our chat. The next lesson
+      will turn step 1 into real, runnable Python: fetching the live price of Bitcoin in three lines.
+    </div>
+
+    <div class="nav">
+      <span>← You're at the start</span>
+      <span>Next: <a href="0002-your-first-market-data.html">Lesson 2 — Your first market data in Python</a></span>
+    </div>
+
+  </main>
+  <script src="../assets/quiz.js"></script>
+</body>
+</html>
